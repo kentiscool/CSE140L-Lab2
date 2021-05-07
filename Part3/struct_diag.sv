@@ -22,6 +22,7 @@ module struct_diag(
 			   
   output logic Buzz
 );	           // alarm sounds
+  logic resetDate;
   logic[6:0] TSec, TMin, THrs, TDys, TDate, TMonth,  // clock/time 
              AMin, AHrs;	    					// alarm setting
   logic[6:0] Min, Hrs, Dys, Date, Month;		    	// displayed time
@@ -108,15 +109,18 @@ module struct_diag(
 	);
 	
 	always_comb begin
+			
 		if (!Reset) begin
 		Buzz = ShouldBuzz && Alarmon;
-	
+		
+		resetDate = 0;
 		TMen = Szero;
 		THen = Mzero && Szero;
 		TDen = Mzero && Szero && Hzero;
 		TDateEn = Mzero && Szero && Hzero;
 		TMonthEn = Mzero && Szero && Hzero && DateZero;
-		
+		Date = TDate;
+
 		if (Timeset) begin
 			if(Alarmset == 0) begin
 				TMen = Minadv;
@@ -135,8 +139,8 @@ module struct_diag(
 			end else begin 
 				daysInMonth = 31;
 			end
-			TDate = 0;
-		end
+			Date = 0;
+		end 
 				
 		if (Timeset == 0)begin
 			if(Alarmset) begin
@@ -153,11 +157,10 @@ module struct_diag(
 			Hrs = THrs;
 		end
 		Dys = TDys;
-		Date = TDate;
 		Month = TMonth;
 		end else begin 
-		daysInMonth = 31;
-	end
+			resetDate = 1;
+		end
 	end 
 
 endmodule
