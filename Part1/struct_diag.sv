@@ -67,6 +67,14 @@ module struct_diag(
 	);
 	
 	always_comb begin
+		AMen = 0;
+		AHen = 0;
+		Hrs = 0;
+		Min = 0;
+		TMen = 0;
+		THen = 0;
+		Buzz = 0;
+		
 		if (!Reset) begin
 		Buzz = ShouldBuzz && Alarmon;
 	
