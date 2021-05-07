@@ -109,7 +109,29 @@ module struct_diag(
 	);
 	
 	always_comb begin
-			
+		AMen = 0;
+		AHen = 0;
+		Hrs = 0;
+		Min = 0;
+		Dys = 0;
+		Month = 0;
+		Date = 0;
+		TMen = 0;
+		THen = 0;
+		TDen = 0;
+		TDateEn = 0;
+		TMonthEn = 0;
+		
+				if (TMonth + 1 == 2) begin
+					daysInMonth = 28;
+				end else if (TMonth + 1 == 4 || TMonth + 1 == 6 || TMonth + 1 == 9 || TMonth + 1 == 11) begin
+					daysInMonth = 30;
+				end else begin 
+					daysInMonth = 31;
+				end
+		
+		
+		Buzz = 0;
 		if (!Reset) begin
 		Buzz = ShouldBuzz && Alarmon;
 		
@@ -160,6 +182,7 @@ module struct_diag(
 		Month = TMonth;
 		end else begin 
 			resetDate = 1;
+			daysInMonth = 31;
 		end
 	end 
 
